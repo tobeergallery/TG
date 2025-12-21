@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tobeer Gallery - প্রিমিয়াম কনক্রিট প্ল্যান্টার</title>
-    
+    <link rel="icon" type="image/x-icon" href="./photos/logo/Logo_001.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <!-- Custom Config for Tailwind -->
     <script>
         tailwind.config = {
@@ -31,7 +28,6 @@
             }
         }
     </script>
-
     <style>
         /* Hide Scrollbar but allow scrolling */
         .hide-scroll-bar::-webkit-scrollbar {
@@ -41,7 +37,6 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        
         /* Glassmorphism Navbar */
         .glass-nav {
             background: rgba(255, 255, 255, 0.85);
@@ -49,14 +44,12 @@
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
-
         /* Animations */
         .fade-in-up {
             animation: fadeInUp 0.8s ease-out forwards;
             opacity: 0;
             transform: translateY(20px);
         }
-        
         @keyframes fadeInUp {
             to {
                 opacity: 1;
@@ -66,27 +59,21 @@
     </style>
 </head>
 <body class="font-sans text-gray-800 bg-gray-50 antialiased">
-
     <!-- --- UNIQUE NAVIGATION --- -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 top-0">
         <div class="container mx-auto px-4">
             <div class="bg-white/90 backdrop-blur-md rounded-full shadow-lg px-6 py-3 flex justify-between items-center border border-gray-100">
-                
                 <!-- Left Menu (Desktop) -->
                 <div class="hidden lg:flex space-x-6 text-sm font-semibold uppercase tracking-wide text-gray-600">
                     <a href="#" class="hover:text-brand-green transition">হোম</a>
                     <a href="#new-arrival" class="hover:text-brand-green transition">নতুন কালেকশন</a>
                     <a href="#categories" class="hover:text-brand-green transition">ক্যাটাগরি</a>
                 </div>
-
                 <!-- Logo (Center) -->
                 <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 bg-brand-green text-white flex items-center justify-center rounded-tl-xl rounded-br-xl shadow-lg">
-                        <span class="font-bold text-lg">TG</span>
-                    </div>
+                    <img class="w-10 h-10 flex items-center justify-center rounded-tl-xl rounded-br-xl" src="./photos/logo/Logo_001.png">
                     <span class="text-xl font-bold text-gray-800 tracking-wider">Tobeer Gallery</span>
                 </div>
-
                 <!-- Right Icons -->
                 <div class="flex items-center space-x-5 text-gray-600">
                     <button class="hover:text-brand-green transition relative group">
@@ -97,7 +84,7 @@
                     </button>
                     <div class="relative cursor-pointer group" onclick="toggleCart()">
                         <i data-lucide="shopping-bag" class="w-5 h-5 group-hover:text-brand-green transition"></i>
-                        <span class="absolute -top-2 -right-2 bg-brand-green text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">2</span>
+                        <span class="absolute -top-2 -right-2 bg-brand-green text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">6</span>
                     </div>
                     <!-- Mobile Menu Trigger -->
                     <button class="lg:hidden text-gray-800">
@@ -107,19 +94,16 @@
             </div>
         </div>
     </nav>
-
     <!-- --- VIDEO HERO SECTION --- -->
     <header class="relative h-screen w-full overflow-hidden flex items-center justify-center">
         <!-- Video Background -->
         <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
             <!-- Pexels free stock video as placeholder -->
-            <source src="https://videos.pexels.com/video-files/5657850/5657850-hd_1920_1080_24fps.mp4" type="video/mp4">
+            <source src="./Videos/heroSection/product_QWE_Video_001.mp4" type="video/mp4">
             আপনার ব্রাউজার ভিডিও সাপোর্ট করছে না।
         </video>
-
         <!-- Dark Overlay -->
         <div class="absolute inset-0 bg-black/50 z-10"></div>
-
         <!-- Content -->
         <div class="relative z-20 text-center text-white px-4 max-w-5xl mx-auto fade-in-up">
             <div class="inline-block border border-white/30 bg-white/10 backdrop-blur-sm px-4 py-1 rounded-full text-sm uppercase tracking-[0.2em] mb-4">
@@ -140,13 +124,11 @@
                 </a>
             </div>
         </div>
-
         <!-- Scroll Indicator -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce text-white/70">
             <i data-lucide="chevron-down" class="w-8 h-8"></i>
         </div>
     </header>
-
     <!-- --- VISUAL CATEGORIES (Quick Access) --- -->
     <section id="categories" class="py-12 bg-white relative -mt-10 z-30 rounded-t-[3rem]">
         <div class="container mx-auto px-4">
@@ -183,9 +165,7 @@
             </div>
         </div>
     </section>
-
     <!-- ================= SCROLLABLE PRODUCT ROWS ================= -->
-
     <!-- --- SECTION 1: BEST SELLING (Horizontal Scroll) --- -->
     <section class="py-10 md:py-16 bg-gray-50 border-t">
         <div class="container mx-auto px-4 md:px-8">
@@ -200,10 +180,8 @@
                     <button onclick="scrollContainer('best-sellers', 'right')" class="p-2 rounded-full border border-gray-300 hover:bg-brand-green hover:text-white transition"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
                 </div>
             </div>
-
             <!-- Scroll Container -->
             <div id="best-sellers" class="flex overflow-x-auto hide-scroll-bar gap-6 pb-8 snap-x snap-mandatory scroll-smooth">
-                
                 <!-- Product Card 1 -->
                 <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group snap-center cursor-pointer">
                     <div class="relative h-72 overflow-hidden rounded-t-2xl">
@@ -223,7 +201,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Product Card 2 -->
                 <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group snap-center cursor-pointer">
                     <div class="relative h-72 overflow-hidden rounded-t-2xl">
@@ -241,7 +218,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Product Card 3 -->
                 <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group snap-center cursor-pointer">
                     <div class="relative h-72 overflow-hidden rounded-t-2xl">
