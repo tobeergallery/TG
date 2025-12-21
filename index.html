@@ -1,435 +1,534 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="bn" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tobeer Gallery - হোম</title>
+    <title>Tobeer Gallery - প্রিমিয়াম কনক্রিট প্ল্যান্টার</title>
     
-    <!-- Tailwind CSS (CDN) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Lucide Icons (CDN) -->
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Google Fonts (Optional but recommended for Bangla) -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Config for Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-dark': '#0f172a',
+                        'brand-green': '#15803d',
+                        'brand-gold': '#d4af37',
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        body {
-            font-family: 'Hind Siliguri', sans-serif;
+        /* Hide Scrollbar but allow scrolling */
+        .hide-scroll-bar::-webkit-scrollbar {
+            display: none;
         }
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
+        .hide-scroll-bar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Glassmorphism Navbar */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Animations */
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
-<body class="font-sans text-gray-800 bg-gray-50">
+<body class="font-sans text-gray-800 bg-gray-50 antialiased">
 
-    <!-- --- Navigation Bar --- -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent py-5">
-        <div class="container mx-auto px-4 md:px-8 flex justify-between items-center">
-            
-            <!-- Logo -->
-            <div class="text-2xl font-bold tracking-wider text-gray-900 flex items-center gap-2 cursor-pointer">
-                <div class="w-8 h-8 bg-green-700 rounded-tl-xl rounded-br-xl flex items-center justify-center text-white text-sm">TG</div>
-                Tobeer Gallery
-            </div>
-
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex space-x-8 font-medium text-gray-700">
-                <a href="#" class="hover:text-green-700 transition">হোম</a>
-                <a href="#shop" class="hover:text-green-700 transition">কালেকশন</a>
-                <a href="#categories" class="hover:text-green-700 transition">ক্যাটাগরি</a>
-                <a href="#about" class="hover:text-green-700 transition">আমাদের গল্প</a>
-            </div>
-
-            <!-- Icons -->
-            <div class="flex items-center space-x-5">
-                <button class="hover:text-green-700 transition">
-                    <i data-lucide="search" class="w-5 h-5"></i>
-                </button>
-                <div class="relative cursor-pointer" onclick="addToCart()">
-                    <button class="hover:text-green-700 transition">
-                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                    </button>
-                    <!-- Cart Badge (Hidden initially) -->
-                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden transform scale-0 transition-transform duration-200">
-                        0
-                    </span>
+    <!-- --- UNIQUE NAVIGATION --- -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 top-0">
+        <div class="container mx-auto px-4">
+            <div class="bg-white/90 backdrop-blur-md rounded-full shadow-lg px-6 py-3 flex justify-between items-center border border-gray-100">
+                
+                <!-- Left Menu (Desktop) -->
+                <div class="hidden lg:flex space-x-6 text-sm font-semibold uppercase tracking-wide text-gray-600">
+                    <a href="#" class="hover:text-brand-green transition">হোম</a>
+                    <a href="#new-arrival" class="hover:text-brand-green transition">নতুন কালেকশন</a>
+                    <a href="#categories" class="hover:text-brand-green transition">ক্যাটাগরি</a>
                 </div>
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden hover:text-green-700 transition">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
-            </div>
-        </div>
 
-        <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white absolute top-full left-0 w-full shadow-lg py-4 flex flex-col items-center space-y-4 font-medium transition-all">
-            <a href="#" class="hover:text-green-700 w-full text-center py-2">হোম</a>
-            <a href="#shop" class="hover:text-green-700 w-full text-center py-2">কালেকশন</a>
-            <a href="#categories" class="hover:text-green-700 w-full text-center py-2">ক্যাটাগরি</a>
-            <a href="#about" class="hover:text-green-700 w-full text-center py-2">আমাদের গল্প</a>
+                <!-- Logo (Center) -->
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-brand-green text-white flex items-center justify-center rounded-tl-xl rounded-br-xl shadow-lg">
+                        <span class="font-bold text-lg">TG</span>
+                    </div>
+                    <span class="text-xl font-bold text-gray-800 tracking-wider">Tobeer Gallery</span>
+                </div>
+
+                <!-- Right Icons -->
+                <div class="flex items-center space-x-5 text-gray-600">
+                    <button class="hover:text-brand-green transition relative group">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </button>
+                    <button class="hover:text-brand-green transition">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </button>
+                    <div class="relative cursor-pointer group" onclick="toggleCart()">
+                        <i data-lucide="shopping-bag" class="w-5 h-5 group-hover:text-brand-green transition"></i>
+                        <span class="absolute -top-2 -right-2 bg-brand-green text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">2</span>
+                    </div>
+                    <!-- Mobile Menu Trigger -->
+                    <button class="lg:hidden text-gray-800">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <!-- --- Hero Section --- -->
-    <header class="relative h-[90vh] flex items-center justify-center">
-        <!-- Background Image with Overlay -->
-        <div class="absolute inset-0 z-0">
-            <img 
-                src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&q=80&w=2000" 
-                alt="Hero Background" 
-                class="w-full h-full object-cover"
-            />
-            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+    <!-- --- VIDEO HERO SECTION --- -->
+    <header class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <!-- Video Background -->
+        <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
+            <!-- Pexels free stock video as placeholder -->
+            <source src="https://videos.pexels.com/video-files/5657850/5657850-hd_1920_1080_24fps.mp4" type="video/mp4">
+            আপনার ব্রাউজার ভিডিও সাপোর্ট করছে না।
+        </video>
+
+        <!-- Dark Overlay -->
+        <div class="absolute inset-0 bg-black/50 z-10"></div>
+
+        <!-- Content -->
+        <div class="relative z-20 text-center text-white px-4 max-w-5xl mx-auto fade-in-up">
+            <div class="inline-block border border-white/30 bg-white/10 backdrop-blur-sm px-4 py-1 rounded-full text-sm uppercase tracking-[0.2em] mb-4">
+                প্রকৃতি ও শিল্পের মেলবন্ধন
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight drop-shadow-lg">
+                আপনার ঘর হোক <br/> <span class="text-green-400">সবুজের</span> অভয়ারণ্য
+            </h1>
+            <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light">
+                হাতে তৈরি প্রিমিয়াম কনক্রিট পটস, যা আপনার ইনডোর এবং আউটডোর গার্ডেনিং এর সৌন্দর্য বহুগুণ বাড়িয়ে দেয়।
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#shop" class="bg-brand-green hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold transition transform hover:scale-105 flex items-center justify-center gap-2 shadow-xl shadow-green-900/20">
+                    এখনই কিনুন <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+                <a href="#video-tour" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/50 text-white px-8 py-4 rounded-full font-bold transition flex items-center justify-center gap-2">
+                    <i data-lucide="play-circle" class="w-5 h-5"></i> ভিডিও দেখুন
+                </a>
+            </div>
         </div>
 
-        <!-- Hero Content -->
-        <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-            <span class="uppercase tracking-[0.2em] text-sm md:text-base mb-4 block text-green-300 font-semibold">
-                হ্যান্ডক্রাফটেড কনক্রিট আর্ট
-            </span>
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                আপনার ঘরকে সাজান <br/> প্রকৃতির ছোঁয়ায়
-            </h1>
-            <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
-                আমাদের টেকসই এবং নান্দনিক সিমেন্টের টব আপনার ইনডোর এবং আউটডোর গার্ডেনিং এর জন্য সেরা পছন্দ।
-            </p>
-            <a href="#shop" class="bg-green-700 hover:bg-green-800 text-white px-8 py-4 rounded-full font-semibold transition transform hover:-translate-y-1 inline-flex items-center gap-2">
-                শপ ভিজিট করুন <i data-lucide="arrow-right" class="w-5 h-5"></i>
-            </a>
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce text-white/70">
+            <i data-lucide="chevron-down" class="w-8 h-8"></i>
         </div>
     </header>
 
-    <!-- --- Features Section --- -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div class="p-6">
-                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-700">
-                   <i data-lucide="star" class="w-8 h-8"></i>
+    <!-- --- VISUAL CATEGORIES (Quick Access) --- -->
+    <section id="categories" class="py-12 bg-white relative -mt-10 z-30 rounded-t-[3rem]">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-center mb-8">জনপ্রিয় কালেকশন</h2>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-10">
+                <!-- Cat Item -->
+                <div class="group text-center cursor-pointer">
+                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:border-brand-green transition duration-300">
+                        <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <p class="mt-3 font-semibold text-gray-700 group-hover:text-brand-green">স্কয়ার টব</p>
                 </div>
-                <h3 class="text-xl font-bold mb-2">প্রিমিয়াম কোয়ালিটি</h3>
-                <p class="text-gray-600">প্রতিটি টব যত্ন সহকারে হাতে তৈরি এবং সর্বোচ্চ ফিনিশিং নিশ্চিত করা হয়।</p>
-            </div>
-            <div class="p-6">
-                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-700">
-                   <span class="font-bold text-2xl">৳</span>
+                <!-- Cat Item -->
+                <div class="group text-center cursor-pointer">
+                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:border-brand-green transition duration-300">
+                        <img src="https://images.unsplash.com/photo-1509423355108-74432ed504d5?w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <p class="mt-3 font-semibold text-gray-700 group-hover:text-brand-green">রাউন্ড টব</p>
                 </div>
-                <h3 class="text-xl font-bold mb-2">সাশ্রয়ী মূল্য</h3>
-                <p class="text-gray-600">সেরা মানের পণ্য পাচ্ছেন একদম রিজনেবল প্রাইসে, সরাসরি প্রস্তুতকারক থেকে।</p>
-            </div>
-            <div class="p-6">
-                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-700">
-                   <i data-lucide="map-pin" class="w-8 h-8"></i>
+                <!-- Cat Item -->
+                <div class="group text-center cursor-pointer">
+                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:border-brand-green transition duration-300">
+                        <img src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <p class="mt-3 font-semibold text-gray-700 group-hover:text-brand-green">সাকুলেন্ট</p>
                 </div>
-                <h3 class="text-xl font-bold mb-2">সারা দেশে ডেলিভারি</h3>
-                <p class="text-gray-600">যত্ন সহকারে প্যাকেজিং করে আমরা সারা বাংলাদেশে কুরিয়ারে পাঠিয়ে থাকি।</p>
+                <!-- Cat Item -->
+                <div class="group text-center cursor-pointer">
+                    <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:border-brand-green transition duration-300">
+                        <img src="https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?w=400" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <p class="mt-3 font-semibold text-gray-700 group-hover:text-brand-green">লুক্সারি</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- --- Categories Section --- -->
-    <section id="categories" class="py-16 px-4 md:px-8">
-        <div class="container mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12">জনপ্রিয় ক্যাটাগরি</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                <!-- Category 1 -->
-                <div class="relative group overflow-hidden rounded-lg cursor-pointer h-80">
-                    <img 
-                        src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=600" 
-                        alt="ইনডোর প্ল্যান্টস" 
-                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110"
-                    />
-                    <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition flex items-center justify-center">
-                        <h3 class="text-white text-2xl font-bold border-2 border-white px-6 py-2">ইনডোর প্ল্যান্টস</h3>
-                    </div>
-                </div>
+    <!-- ================= SCROLLABLE PRODUCT ROWS ================= -->
 
-                <!-- Category 2 -->
-                <div class="relative group overflow-hidden rounded-lg cursor-pointer h-80">
-                    <img 
-                        src="https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&q=80&w=600" 
-                        alt="অফিস ডেস্ক" 
-                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110"
-                    />
-                    <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition flex items-center justify-center">
-                        <h3 class="text-white text-2xl font-bold border-2 border-white px-6 py-2">অফিস ডেস্ক</h3>
-                    </div>
-                </div>
-
-                <!-- Category 3 -->
-                <div class="relative group overflow-hidden rounded-lg cursor-pointer h-80">
-                    <img 
-                        src="https://images.unsplash.com/photo-1599687351253-35905e4d2a65?auto=format&fit=crop&q=80&w=600" 
-                        alt="বাগান সাজসজ্জা" 
-                        class="w-full h-full object-cover transition duration-500 group-hover:scale-110"
-                    />
-                    <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition flex items-center justify-center">
-                        <h3 class="text-white text-2xl font-bold border-2 border-white px-6 py-2">বাগান সাজসজ্জা</h3>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- --- Best Sellers Section --- -->
-    <section id="shop" class="py-16 px-4 bg-gray-100">
-        <div class="container mx-auto">
-            <div class="flex justify-between items-end mb-10">
+    <!-- --- SECTION 1: BEST SELLING (Horizontal Scroll) --- -->
+    <section class="py-10 md:py-16 bg-gray-50 border-t">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex justify-between items-center mb-6">
                 <div>
-                    <span class="text-green-700 font-semibold tracking-wide">বেস্ট সেলিং</span>
-                    <h2 class="text-3xl font-bold mt-2">আমাদের কালেকশন</h2>
+                    <span class="text-brand-green font-bold text-sm tracking-wider uppercase">হট কালেকশন</span>
+                    <h2 class="text-3xl font-bold text-gray-900 mt-1">সবচেয়ে বেশি বিক্রি হওয়া</h2>
                 </div>
-                <a href="#" class="hidden md:flex items-center text-gray-600 hover:text-green-700 font-medium group">
-                    সব দেখুন <i data-lucide="arrow-right" class="ml-1 w-4 h-4 group-hover:translate-x-1 transition"></i>
-                </a>
+                <!-- Scroll Buttons -->
+                <div class="flex gap-2">
+                    <button onclick="scrollContainer('best-sellers', 'left')" class="p-2 rounded-full border border-gray-300 hover:bg-brand-green hover:text-white transition"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                    <button onclick="scrollContainer('best-sellers', 'right')" class="p-2 rounded-full border border-gray-300 hover:bg-brand-green hover:text-white transition"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                </div>
             </div>
 
-            <!-- Products Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Scroll Container -->
+            <div id="best-sellers" class="flex overflow-x-auto hide-scroll-bar gap-6 pb-8 snap-x snap-mandatory scroll-smooth">
                 
-                <!-- Product 1 -->
-                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition duration-300 group">
-                    <div class="relative h-64 bg-gray-200 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <button class="absolute top-3 right-3 bg-white p-2 rounded-full shadow hover:text-red-500 transition opacity-0 group-hover:opacity-100">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                        <span class="absolute bottom-3 left-3 bg-white/90 px-2 py-1 text-xs font-bold text-gray-600 rounded">ইনডোর</span>
+                <!-- Product Card 1 -->
+                <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group snap-center cursor-pointer">
+                    <div class="relative h-72 overflow-hidden rounded-t-2xl">
+                        <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded z-10">Best Seller</span>
+                        <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <!-- Quick Action -->
+                        <div class="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur text-center py-3 translate-y-full group-hover:translate-y-0 transition duration-300">
+                            <span class="text-brand-green font-bold text-sm uppercase">বিস্তারিত দেখুন</span>
+                        </div>
                     </div>
                     <div class="p-5">
-                        <h3 class="text-lg font-semibold mb-2 text-gray-800">জিওমেট্রিক কনক্রিট পট</h3>
+                        <h3 class="text-xl font-bold text-gray-800">জিওমেট্রিক কিউব</h3>
+                        <p class="text-sm text-gray-500 mb-3">ইনডোর প্ল্যান্টস</p>
                         <div class="flex justify-between items-center">
-                            <span class="text-green-700 font-bold text-lg">৳ ৪৫০</span>
-                            <button onclick="addToCart()" class="text-sm font-medium border border-gray-300 px-3 py-1.5 rounded hover:bg-green-700 hover:text-white hover:border-green-700 transition">অ্যাড টু কার্ট</button>
+                            <span class="text-xl font-bold text-brand-green">৳ ৪৫০</span>
+                            <button class="bg-gray-900 text-white p-2 rounded-full hover:bg-brand-green transition"><i data-lucide="plus" class="w-5 h-5"></i></button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Product 2 -->
-                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition duration-300 group">
-                    <div class="relative h-64 bg-gray-200 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1509423355108-74432ed504d5?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <button class="absolute top-3 right-3 bg-white p-2 rounded-full shadow hover:text-red-500 transition opacity-0 group-hover:opacity-100">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                        <span class="absolute bottom-3 left-3 bg-white/90 px-2 py-1 text-xs font-bold text-gray-600 rounded">আউটডোর</span>
+                <!-- Product Card 2 -->
+                <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group snap-center cursor-pointer">
+                    <div class="relative h-72 overflow-hidden rounded-t-2xl">
+                        <img src="https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur text-center py-3 translate-y-full group-hover:translate-y-0 transition duration-300">
+                            <span class="text-brand-green font-bold text-sm uppercase">বিস্তারিত দেখুন</span>
+                        </div>
                     </div>
                     <div class="p-5">
-                        <h3 class="text-lg font-semibold mb-2 text-gray-800">সিলিন্ডার টব (মাঝারি)</h3>
+                        <h3 class="text-xl font-bold text-gray-800">মিনিমালিস্ট গ্রে</h3>
+                        <p class="text-sm text-gray-500 mb-3">টেবিল টপ</p>
                         <div class="flex justify-between items-center">
-                            <span class="text-green-700 font-bold text-lg">৳ ৩৫০</span>
-                            <button onclick="addToCart()" class="text-sm font-medium border border-gray-300 px-3 py-1.5 rounded hover:bg-green-700 hover:text-white hover:border-green-700 transition">অ্যাড টু কার্ট</button>
+                            <span class="text-xl font-bold text-brand-green">৳ ৩২০</span>
+                            <button class="bg-gray-900 text-white p-2 rounded-full hover:bg-brand-green transition"><i data-lucide="plus" class="w-5 h-5"></i></button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Product 3 -->
-                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition duration-300 group">
-                    <div class="relative h-64 bg-gray-200 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <button class="absolute top-3 right-3 bg-white p-2 rounded-full shadow hover:text-red-500 transition opacity-0 group-hover:opacity-100">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                        <span class="absolute bottom-3 left-3 bg-white/90 px-2 py-1 text-xs font-bold text-gray-600 rounded">টেবল টপ</span>
+                <!-- Product Card 3 -->
+                <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group snap-center cursor-pointer">
+                    <div class="relative h-72 overflow-hidden rounded-t-2xl">
+                        <img src="https://images.unsplash.com/photo-1599687351253-35905e4d2a65?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur text-center py-3 translate-y-full group-hover:translate-y-0 transition duration-300">
+                            <span class="text-brand-green font-bold text-sm uppercase">বিস্তারিত দেখুন</span>
+                        </div>
                     </div>
                     <div class="p-5">
-                        <h3 class="text-lg font-semibold mb-2 text-gray-800">হেক্সাগন সাকুলেন্ট পট</h3>
+                        <h3 class="text-xl font-bold text-gray-800">টেক্সচারড হোয়াইট</h3>
+                        <p class="text-sm text-gray-500 mb-3">আউটডোর</p>
                         <div class="flex justify-between items-center">
-                            <span class="text-green-700 font-bold text-lg">৳ ২০০</span>
-                            <button onclick="addToCart()" class="text-sm font-medium border border-gray-300 px-3 py-1.5 rounded hover:bg-green-700 hover:text-white hover:border-green-700 transition">অ্যাড টু কার্ট</button>
+                            <span class="text-xl font-bold text-brand-green">৳ ৫০০</span>
+                            <button class="bg-gray-900 text-white p-2 rounded-full hover:bg-brand-green transition"><i data-lucide="plus" class="w-5 h-5"></i></button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Product 4 -->
-                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition duration-300 group">
-                    <div class="relative h-64 bg-gray-200 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <button class="absolute top-3 right-3 bg-white p-2 rounded-full shadow hover:text-red-500 transition opacity-0 group-hover:opacity-100">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                        <span class="absolute bottom-3 left-3 bg-white/90 px-2 py-1 text-xs font-bold text-gray-600 rounded">লুক্সারি</span>
+                 <!-- Product Card 4 -->
+                 <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 group snap-center cursor-pointer">
+                    <div class="relative h-72 overflow-hidden rounded-t-2xl">
+                         <span class="absolute top-3 left-3 bg-brand-green text-white text-xs font-bold px-2 py-1 rounded z-10">New</span>
+                        <img src="https://images.unsplash.com/photo-1509423355108-74432ed504d5?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur text-center py-3 translate-y-full group-hover:translate-y-0 transition duration-300">
+                            <span class="text-brand-green font-bold text-sm uppercase">বিস্তারিত দেখুন</span>
+                        </div>
                     </div>
                     <div class="p-5">
-                        <h3 class="text-lg font-semibold mb-2 text-gray-800">মডার্ন হোয়াইট ফিনিশ</h3>
+                        <h3 class="text-xl font-bold text-gray-800">সিলিন্ডার টল</h3>
+                        <p class="text-sm text-gray-500 mb-3">কর্নার পিস</p>
                         <div class="flex justify-between items-center">
-                            <span class="text-green-700 font-bold text-lg">৳ ৫৫০</span>
-                            <button onclick="addToCart()" class="text-sm font-medium border border-gray-300 px-3 py-1.5 rounded hover:bg-green-700 hover:text-white hover:border-green-700 transition">অ্যাড টু কার্ট</button>
+                            <span class="text-xl font-bold text-brand-green">৳ ৭৫০</span>
+                            <button class="bg-gray-900 text-white p-2 rounded-full hover:bg-brand-green transition"><i data-lucide="plus" class="w-5 h-5"></i></button>
                         </div>
                     </div>
                 </div>
 
-            </div>
+                <!-- See More Card -->
+                <div class="min-w-[200px] flex items-center justify-center bg-gray-100 rounded-2xl hover:bg-gray-200 transition cursor-pointer">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2 text-brand-green shadow">
+                            <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                        </div>
+                        <span class="font-bold text-gray-600">সব দেখুন</span>
+                    </div>
+                </div>
 
-            <div class="mt-8 text-center md:hidden">
-               <button class="text-green-700 font-semibold border-b-2 border-green-700 pb-1">সব পণ্য দেখুন</button>
             </div>
         </div>
     </section>
 
-    <!-- --- About Section --- -->
-    <section id="about" class="py-20 px-4 bg-white">
-        <div class="container mx-auto flex flex-col md:flex-row items-center gap-12">
-            <div class="md:w-1/2">
-                <div class="grid grid-cols-2 gap-4">
-                    <img src="https://images.unsplash.com/photo-1622372738946-a2e485841e97?auto=format&fit=crop&q=80&w=400" class="rounded-lg mt-8" alt="Pot making">
-                    <img src="https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&q=80&w=400" class="rounded-lg" alt="Decoration">
+    <!-- --- SECTION 2: SQUARE POTS --- -->
+    <section class="py-10 md:py-16 bg-white">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                     <span class="text-brand-green font-bold text-sm tracking-wider uppercase">জ্যামিতিক ডিজাইন</span>
+                    <h2 class="text-3xl font-bold text-gray-900 mt-1">স্কয়ার টব কালেকশন</h2>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="scrollContainer('square-pots', 'left')" class="p-2 rounded-full border border-gray-300 hover:bg-brand-green hover:text-white transition"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                    <button onclick="scrollContainer('square-pots', 'right')" class="p-2 rounded-full border border-gray-300 hover:bg-brand-green hover:text-white transition"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
                 </div>
             </div>
-            <div class="md:w-1/2">
-                <h2 class="text-3xl font-bold mb-6">কংক্রিট কুঠির থেকে 'Tobeer Gallery'</h2>
-                <p class="text-gray-600 mb-6 leading-relaxed">
-                    আমাদের যাত্রা শুরু হয়েছিল কংক্রিটের প্রতি ভালোবাসা থেকে। আমরা বিশ্বাস করি একটি সুন্দর টব শুধুমাত্র গাছের আধার নয়, এটি ঘরের সৌন্দর্যের একটি গুরুত্বপূর্ণ অংশ। প্রতিটি টব আমরা নিজস্ব তত্ত্বাবধানে তৈরি করি যাতে আপনি পান দীর্ঘস্থায়ী এবং প্রিমিয়াম কোয়ালিটি।
-                </p>
-                <ul class="space-y-3 mb-8">
-                    <li class="flex items-center gap-3 text-gray-700">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div> পরিবেশ বান্ধব উপাদান
-                    </li>
-                    <li class="flex items-center gap-3 text-gray-700">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div> ওয়াটার রেসিস্ট্যান্ট কোটিং
-                    </li>
-                    <li class="flex items-center gap-3 text-gray-700">
-                        <div class="w-2 h-2 bg-green-500 rounded-full"></div> কাস্টম কালার অপশন
-                    </li>
-                </ul>
-                <button class="bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">
-                    আরও জানুন
-                </button>
+
+            <div id="square-pots" class="flex overflow-x-auto hide-scroll-bar gap-6 pb-8 snap-x snap-mandatory scroll-smooth">
+                <!-- Repeated structure with different images for Square pots -->
+                <div class="min-w-[280px] md:min-w-[320px] bg-gray-50 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition duration-300 group snap-center cursor-pointer">
+                    <div class="relative h-64 overflow-hidden rounded-t-2xl">
+                        <img src="https://images.unsplash.com/photo-1545239351-ef35f43d514b?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-800">বক্স প্ল্যান্টার - S</h3>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-lg font-bold text-gray-900">৳ ২৫০</span>
+                            <div class="flex text-yellow-400 text-xs"><i data-lucide="star" class="w-4 h-4 fill-current"></i> 4.8</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="min-w-[280px] md:min-w-[320px] bg-gray-50 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition duration-300 group snap-center cursor-pointer">
+                    <div class="relative h-64 overflow-hidden rounded-t-2xl">
+                        <img src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-800">বক্স প্ল্যান্টার - L</h3>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-lg font-bold text-gray-900">৳ ৫৫০</span>
+                            <div class="flex text-yellow-400 text-xs"><i data-lucide="star" class="w-4 h-4 fill-current"></i> 4.9</div>
+                        </div>
+                    </div>
+                </div>
+                 
+                <div class="min-w-[280px] md:min-w-[320px] bg-gray-50 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition duration-300 group snap-center cursor-pointer">
+                    <div class="relative h-64 overflow-hidden rounded-t-2xl">
+                        <img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-800">সিমেন্ট ব্লক</h3>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-lg font-bold text-gray-900">৳ ৪০০</span>
+                            <div class="flex text-yellow-400 text-xs"><i data-lucide="star" class="w-4 h-4 fill-current"></i> 4.5</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- --- Newsletter --- -->
-    <section class="py-16 bg-green-900 text-white px-4">
-        <div class="container mx-auto text-center max-w-2xl">
-            <h2 class="text-3xl font-bold mb-4">আমাদের সাথে যুক্ত থাকুন</h2>
-            <p class="text-green-100 mb-8">নতুন কালেকশন এবং স্পেশাল ডিসকাউন্ট এর আপডেট পেতে সাবস্ক্রাইব করুন।</p>
-            <div class="flex flex-col sm:flex-row gap-4">
-                <input 
-                    type="email" 
-                    placeholder="আপনার ইমেইল এড্রেস" 
-                    class="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-                <button class="bg-green-600 hover:bg-green-500 px-6 py-3 rounded-lg font-bold transition">
-                    সাবস্ক্রাইব
-                </button>
+    <!-- --- SECTION 3: TOP RATED (Round) --- -->
+    <section class="py-10 md:py-16 bg-gray-900 text-white">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                     <span class="text-yellow-500 font-bold text-sm tracking-wider uppercase flex items-center gap-1"><i data-lucide="star" class="w-4 h-4 fill-current"></i> কাস্টমার ফেভারিট</span>
+                    <h2 class="text-3xl font-bold mt-1">টপ রেটেড কালেকশন</h2>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="scrollContainer('top-rated', 'left')" class="p-2 rounded-full border border-gray-600 hover:bg-yellow-500 hover:text-black transition"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                    <button onclick="scrollContainer('top-rated', 'right')" class="p-2 rounded-full border border-gray-600 hover:bg-yellow-500 hover:text-black transition"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                </div>
+            </div>
+
+            <div id="top-rated" class="flex overflow-x-auto hide-scroll-bar gap-6 pb-8 snap-x snap-mandatory scroll-smooth">
+                <!-- Dark Themed Card -->
+                <div class="min-w-[280px] md:min-w-[320px] bg-gray-800 rounded-2xl shadow-lg border border-gray-700 hover:border-yellow-500 transition duration-300 group snap-center cursor-pointer">
+                    <div class="relative h-64 overflow-hidden rounded-t-2xl">
+                        <img src="https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-90 group-hover:opacity-100">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-200">রাউন্ড বোল</h3>
+                        <p class="text-gray-400 text-sm">৫০+ রিভিউ</p>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-xl font-bold text-yellow-500">৳ ৬০০</span>
+                            <button class="bg-yellow-500 text-black p-2 rounded-full hover:bg-yellow-400 transition"><i data-lucide="shopping-cart" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="min-w-[280px] md:min-w-[320px] bg-gray-800 rounded-2xl shadow-lg border border-gray-700 hover:border-yellow-500 transition duration-300 group snap-center cursor-pointer">
+                    <div class="relative h-64 overflow-hidden rounded-t-2xl">
+                        <img src="https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-90 group-hover:opacity-100">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-200">হোয়াইট সিরামিক লুক</h3>
+                        <p class="text-gray-400 text-sm">৩০+ রিভিউ</p>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-xl font-bold text-yellow-500">৳ ৮০০</span>
+                            <button class="bg-yellow-500 text-black p-2 rounded-full hover:bg-yellow-400 transition"><i data-lucide="shopping-cart" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="min-w-[280px] md:min-w-[320px] bg-gray-800 rounded-2xl shadow-lg border border-gray-700 hover:border-yellow-500 transition duration-300 group snap-center cursor-pointer">
+                    <div class="relative h-64 overflow-hidden rounded-t-2xl">
+                        <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-90 group-hover:opacity-100">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-200">গার্ডেন সেট</h3>
+                        <p class="text-gray-400 text-sm">১০০+ রিভিউ</p>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-xl font-bold text-yellow-500">৳ ১২০০</span>
+                            <button class="bg-yellow-500 text-black p-2 rounded-full hover:bg-yellow-400 transition"><i data-lucide="shopping-cart" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- --- Footer --- -->
-    <footer class="bg-gray-900 text-gray-300 py-12 px-4 border-t border-gray-800">
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-                <div class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                   <div class="w-6 h-6 bg-green-700 rounded-tl-lg rounded-br-lg"></div>
-                   Tobeer Gallery
-                </div>
-                <p class="text-sm text-gray-400 leading-relaxed">
-                    আপনার ঘরের নান্দনিকতা বাড়াতে আমাদের আছে আধুনিক সিমেন্টের টবের বিশাল সমাহার।
-                </p>
-                <div class="flex space-x-4 mt-6">
-                    <a href="#" class="hover:text-white transition"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-                    <a href="#" class="hover:text-white transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-                </div>
-            </div>
-
-            <div>
-                <h4 class="text-white font-bold mb-4">কুইক লিংকস</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#" class="hover:text-green-500 transition">হোম</a></li>
-                    <li><a href="#" class="hover:text-green-500 transition">শপ</a></li>
-                    <li><a href="#" class="hover:text-green-500 transition">আমাদের সম্পর্কে</a></li>
-                    <li><a href="#" class="hover:text-green-500 transition">যোগাযোগ</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-white font-bold mb-4">কাস্টমার কেয়ার</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#" class="hover:text-green-500 transition">ডেলিভারি পলিসি</a></li>
-                    <li><a href="#" class="hover:text-green-500 transition">রিটার্ন পলিসি</a></li>
-                    <li><a href="#" class="hover:text-green-500 transition">Terms & Conditions</a></li>
-                    <li><a href="#" class="hover:text-green-500 transition">Privacy Policy</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-white font-bold mb-4">যোগাযোগ</h4>
-                <ul class="space-y-3 text-sm">
-                    <li class="flex items-start gap-3">
-                        <i data-lucide="map-pin" class="w-5 h-5 text-green-600 mt-0.5"></i>
-                        <span>ঢাকা, বাংলাদেশ</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i data-lucide="phone" class="w-5 h-5 text-green-600"></i>
-                        <span>+880 1XXX-XXXXXX</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i data-lucide="mail" class="w-5 h-5 text-green-600"></i>
-                        <span>info@tobeergallery.com</span>
-                    </li>
-                </ul>
-            </div>
+    <!-- --- FEATURED BANNER --- -->
+    <section class="py-20 relative bg-fixed bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1622372738946-a2e485841e97?auto=format&fit=crop&q=80&w=2000');">
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="container mx-auto px-4 relative z-10 text-center text-white">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">কাস্টমাইজড অর্ডারের সুবিধা</h2>
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">আপনার পছন্দমতো ডিজাইন, কালার এবং সাইজ অনুযায়ী টব তৈরি করে নিতে আজই যোগাযোগ করুন।</p>
+            <button class="bg-white text-gray-900 px-8 py-3 rounded-full font-bold hover:bg-brand-green hover:text-white transition duration-300">
+                কাস্টম অর্ডার করুন
+            </button>
         </div>
-        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-xs text-gray-500">
-            <p>&copy; 2024 Tobeer Gallery. All rights reserved.</p>
+    </section>
+
+    <!-- --- RICH FOOTER --- -->
+    <footer class="bg-brand-dark text-gray-300 pt-20 pb-10 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Info -->
+                <div class="space-y-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 bg-brand-green text-white flex items-center justify-center rounded-tl-lg rounded-br-lg">
+                            <span class="font-bold">TG</span>
+                        </div>
+                        <span class="text-2xl font-bold text-white tracking-wider">Tobeer Gallery</span>
+                    </div>
+                    <p class="text-sm leading-relaxed text-gray-400">
+                        আমরা বিশ্বাস করি প্রতিটি গাছ একটি সুন্দর টবের দাবিদার। আমাদের হ্যান্ডমেড কনক্রিট কালেকশন আপনার ইন্টেরিয়রকে দিবে এক অনন্য মাত্রা।
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-600 hover:text-white transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-red-600 hover:text-white transition"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+
+                <!-- Shopping Links -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-6 border-b border-gray-700 pb-2 inline-block">শপিং গাইড</h3>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="#" class="hover:text-brand-green transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4"></i> নতুন কালেকশন</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4"></i> বেস্ট সেলিং</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4"></i> ডিসকাউন্ট অফার</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4"></i> গিফট কার্ড</a></li>
+                    </ul>
+                </div>
+
+                <!-- Help & Policies -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-6 border-b border-gray-700 pb-2 inline-block">কাস্টমার সার্ভিস</h3>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="#" class="hover:text-brand-green transition">অর্ডার ট্র্যাক করুন</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition">শিপিং পলিসি</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition">রিটার্ন ও রিফান্ড</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition">FAQ</a></li>
+                        <li><a href="#" class="hover:text-brand-green transition">সাপোর্ট টিকেট</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-6 border-b border-gray-700 pb-2 inline-block">যোগাযোগ করুন</h3>
+                    <ul class="space-y-6 text-sm">
+                        <li class="flex items-start gap-4">
+                            <i data-lucide="map-pin" class="w-6 h-6 text-brand-green mt-1"></i>
+                            <span>হাউজ #১২, রোড #৪, সেক্টর #১০<br>উত্তরা, ঢাকা-১২৩০</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <i data-lucide="phone" class="w-6 h-6 text-brand-green"></i>
+                            <span>+৮৮০ ১৭১১-XXXXXX</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <i data-lucide="mail" class="w-6 h-6 text-brand-green"></i>
+                            <span>support@tobeergallery.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; ২০২৪ Tobeer Gallery. সর্বস্বত্ব সংরক্ষিত।</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1200px-MasterCard_Logo.svg.png" class="h-6 opacity-50 bg-white px-1 rounded">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" class="h-6 opacity-50 bg-white px-1 rounded">
+                    <img src="https://seeklogo.com/images/B/bkash-logo-FBB258B90F-seeklogo.com.png" class="h-6 opacity-50 bg-white px-1 rounded">
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- --- JavaScript Logic --- -->
+    <!-- --- JAVASCRIPT --- -->
     <script>
-        // 1. Initialize Lucide Icons
+        // Initialize Icons
         lucide.createIcons();
 
-        // 2. Navbar Scroll Effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
+        // Navbar Animation Logic
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                navbar.classList.add('bg-white', 'shadow-md', 'py-3');
-                navbar.classList.remove('bg-transparent', 'py-5');
+                // When scrolled down, make it more compact or change style if needed
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-4');
             } else {
-                navbar.classList.add('bg-transparent', 'py-5');
-                navbar.classList.remove('bg-white', 'shadow-md', 'py-3');
+                // Top position
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-2');
             }
         });
 
-        // 3. Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = mobileMenuBtn.querySelector('i'); // Need to change icon
-
-        let isMenuOpen = false;
-
-        mobileMenuBtn.addEventListener('click', () => {
-            isMenuOpen = !isMenuOpen;
-            if (isMenuOpen) {
-                mobileMenu.classList.remove('hidden');
-            } else {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-
-        // 4. Cart Functionality
-        let count = 0;
-        const cartBadge = document.getElementById('cart-badge');
-        
-        function addToCart() {
-            count++;
-            cartBadge.innerText = count;
-            cartBadge.classList.remove('hidden', 'scale-0');
-            cartBadge.classList.add('scale-100');
+        // Horizontal Scroll Logic
+        function scrollContainer(containerId, direction) {
+            const container = document.getElementById(containerId);
+            const scrollAmount = 350; // Width of one card + gap
             
-            // Simple animation feedback
-            cartBadge.classList.add('bg-green-800');
-            setTimeout(() => {
-                cartBadge.classList.remove('bg-green-800');
-            }, 200);
+            if (direction === 'left') {
+                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
         }
     </script>
 </body>
